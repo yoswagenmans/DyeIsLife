@@ -1,1 +1,2 @@
-merge conflict
+merge conflict resolved
+
