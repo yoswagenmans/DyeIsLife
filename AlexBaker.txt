@@ -1,2 +1,2 @@
-merge conflict resolved
+merge conflict screwed up
 
