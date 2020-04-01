@@ -1,5 +1,5 @@
 class Posts
 {
-  String image, description, date, time;
-  Posts(this.image, this.description, this.date, this.time);
+  String username, image, description, time, location;
+  Posts(this.username, this.image, this.description, this.location, this.time);
 }

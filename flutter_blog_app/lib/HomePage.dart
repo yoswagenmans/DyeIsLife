@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog_app/Authentication.dart';
 import 'PhotoUpload.dart';
 import 'Posts.dart';
-
+import 'ProfilePage.dart';
+import 'DiscussionPage.dart';
+import 'infoPage.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -19,7 +22,28 @@ class HomePage extends StatefulWidget {
     return _HomePageState();
   }
 }
-
+final Map<int, Widget> icons = const<int,Widget>
+{
+  0: Center(
+    child:FlutterLogo( 
+      colors: Colors.indigo,
+      size:200,
+    ),
+  ),
+  1: Center(
+    child:FlutterLogo( 
+      colors: Colors.teal,
+      size:200,
+    ),
+  ),
+  2: Center(
+    child:FlutterLogo( 
+      colors: Colors.cyan,
+      size:200,
+    ),
+  ),
+  
+};
 class _HomePageState extends State<HomePage> {
   
   //The list with all the different posts in it 
@@ -42,9 +66,10 @@ class _HomePageState extends State<HomePage> {
       for(var individualKey in KEYS)
       {
         Posts posts = new Posts(
+          DATA[individualKey]['username'], 
           DATA[individualKey]['image'], 
           DATA[individualKey]['description'],
-          DATA[individualKey]['date'],
+          DATA[individualKey]['location'],
           DATA[individualKey]['time'],
         );
         postsList.add(posts);
@@ -57,7 +82,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  void _logoutUser() async{
+  void logoutUser() async{
     try{
       await widget.auth.signOut(); 
       widget.onSignedOut();
@@ -72,35 +97,15 @@ class _HomePageState extends State<HomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Home"),
-      ),
-      body: new Container(
-        child: postsList.length == 0 ? new Text("No Posts available"): new ListView.builder
-        (
-          itemCount: postsList.length,
-          itemBuilder: (_, index)
-          {
-            return PostsUI(postsList[index].image, postsList[index].description, postsList[index].date, postsList[index].time);
-          },
-
-        )
-      ),
-      bottomNavigationBar: new BottomAppBar(
-        color: Colors.teal,
-        child: new Container(
-            margin: const EdgeInsets.only(left: 70.0, right: 70.0),
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                new IconButton(
-                  icon: new Icon(Icons.exit_to_app),
-                  iconSize: 50,
-                  color: Colors.white,
-                  onPressed: _logoutUser,
-                ),
-                new IconButton(
+        actions: <Widget>[
+            // action button
+            IconButton(
+              icon: new Icon(Icons.exit_to_app),
+              onPressed: logoutUser,
+            ),
+            new IconButton(
                   icon: new Icon(Icons.add_a_photo),
-                  iconSize: 40,
+                  iconSize: 30,
                   color: Colors.white,
                   onPressed: ( )
                   {
@@ -115,13 +120,89 @@ class _HomePageState extends State<HomePage> {
 
                   },
                 ),
+        ]
+      ),
+      body: 
+      new Container(
+        child: postsList.length == 0 ? new Text("No Posts available"): new ListView.builder
+        (
+          itemCount: postsList.length,
+          itemBuilder: (_, index)
+          {
+            return PostsUI(postsList[index].username, postsList[index].image, postsList[index].description, postsList[index].location, postsList[index].time);
+          },
+
+        )
+      ),
+
+      bottomNavigationBar: new BottomAppBar(
+        color: Colors.teal,
+        
+        child: new Container(
+            margin: const EdgeInsets.only(left: 70.0, right: 70.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                new IconButton(
+                  icon: new Image.asset('images/dyeicon.png'),
+                  iconSize: 50,
+                  color: Colors.white,
+                  onPressed: ( )
+                  {
+                    Navigator.push
+                    (
+                      context, 
+                      MaterialPageRoute(builder: (context)
+                      {
+                          return new InfoPage(); 
+                      }),
+                    );
+
+                  },
+                ),
+                new IconButton(
+                  icon: new Icon(Icons.forum),
+                  iconSize: 30,
+                  color: Colors.white,
+                  onPressed: ( )
+                  {
+                    Navigator.push
+                    (
+                      context, 
+                      MaterialPageRoute(builder: (context)
+                      {
+                          return new DiscussionPage(); 
+                      }),
+                    );
+
+                  },
+                ),
+                new IconButton(
+                  icon: new Icon(Icons.person),
+                  iconSize: 30,
+                  color: Colors.white,
+                  onPressed: ( )
+                  {
+                    Navigator.push
+                    (
+                      context, 
+                      MaterialPageRoute(builder: (context)
+                      {
+                          return new ProfilePage(); 
+                      }),
+                    );
+
+                  },
+                ),
+ 
               ],
             )),
       ),
     );
-  }
-
-  Widget PostsUI(String image, String description, String date, String time)
+  }   
+  
+  Widget discussionUI(String username, String bodytext, String time)
   {
     return new Card(
       elevation: 10.0,
@@ -135,13 +216,77 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>
               [
                   new Text(
-                    "@henryhevans", 
+                    username, 
+                    style: Theme.of(context).textTheme.subhead,
+                    textAlign: TextAlign.center,
+                    
+                  ),
+              ],
+            ),
+            new Text(
+                  bodytext, 
+                  style: Theme.of(context).textTheme.subhead,
+                  textAlign: TextAlign.center,
+            ),
+            SizedBox(height:5.0,),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>
+              [
+                  new Text(
+                    time, 
+                    style: Theme.of(context).textTheme.subtitle,
+                    textAlign: TextAlign.right,
+                  ),
+                  //Note: al the buttons below do not have functionality yet. when pressed they will simply sign
+                  //the user out instead of their intended function
+                  new IconButton(
+                    icon: new Icon(Icons.favorite_border),
+                    iconSize: 25,
+                    color: Colors.teal,
+                    onPressed: null, //Ability to like will be added later on
+                  ),
+                  new IconButton(
+                    icon: new Icon(Icons.insert_comment),
+                    iconSize: 25,
+                    color: Colors.teal,
+                    onPressed: null, //ability to comment later on
+                  ),
+                  new IconButton(
+                    icon: new Icon(Icons.mobile_screen_share),
+                    iconSize: 25,
+                    color: Colors.teal,
+                    onPressed: null, //have option to share later on
+                  ),
+              ],
+            ),
+        ],
+      ),
+
+
+    );
+  }
+  Widget PostsUI(String username, String image, String description, String location, String time)
+  {
+    return new Card(
+      elevation: 10.0,
+      margin: EdgeInsets.all(15.0),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+        children: <Widget>[
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>
+              [
+                  new Text(
+                    username, 
                     style: Theme.of(context).textTheme.subhead,
                     textAlign: TextAlign.center,
                     
                   ),
                   new Text(
-                    "Seattle, WA", 
+                    location, 
                     style: Theme.of(context).textTheme.subtitle, 
                     textAlign: TextAlign.center,
                   ),
@@ -162,18 +307,6 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>
               [
                   new Text(
-                    date, 
-                    style: Theme.of(context).textTheme.subtitle,
-                    textAlign: TextAlign.center,
-                    
-                  ),
-                  new Text(
-                    "   ", 
-                    style: Theme.of(context).textTheme.subtitle,
-                    textAlign: TextAlign.right,
-                    
-                  ),
-                  new Text(
                     time, 
                     style: Theme.of(context).textTheme.subtitle,
                     textAlign: TextAlign.right,
@@ -184,19 +317,19 @@ class _HomePageState extends State<HomePage> {
                     icon: new Icon(Icons.favorite_border),
                     iconSize: 25,
                     color: Colors.teal,
-                    onPressed: _logoutUser,
+                    onPressed: null, //Ability to like will be added later on
                   ),
                   new IconButton(
                     icon: new Icon(Icons.insert_comment),
                     iconSize: 25,
                     color: Colors.teal,
-                    onPressed: _logoutUser,
+                    onPressed: null, //ability to comment later on
                   ),
                   new IconButton(
                     icon: new Icon(Icons.mobile_screen_share),
                     iconSize: 25,
                     color: Colors.teal,
-                    onPressed: _logoutUser,
+                    onPressed: null, //have option to share later on
                   ),
               ],
             ),
