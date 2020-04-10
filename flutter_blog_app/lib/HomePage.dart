@@ -4,9 +4,11 @@ import 'package:flutter_blog_app/Authentication.dart';
 import 'PhotoUpload.dart';
 import 'Posts.dart';
 import 'ProfilePage.dart';
-import 'DiscussionPage.dart';
 import 'infoPage.dart';
 import 'package:flutter/cupertino.dart';
+import 'Discussions.dart';
+import 'DiscussionUpload.dart';
+import 'ChoosePost.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -14,41 +16,28 @@ class HomePage extends StatefulWidget {
     this.onSignedOut,
   });
   final AuthImplementation auth;
-  final VoidCallback onSignedOut; 
-
+  final VoidCallback onSignedOut;
 
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
   }
 }
-final Map<int, Widget> icons = const<int,Widget>
-{
-  0: Center(
-    child:FlutterLogo( 
-      colors: Colors.indigo,
-      size:200,
-    ),
-  ),
-  1: Center(
-    child:FlutterLogo( 
-      colors: Colors.teal,
-      size:200,
-    ),
-  ),
-  2: Center(
-    child:FlutterLogo( 
-      colors: Colors.cyan,
-      size:200,
-    ),
-  ),
-  
-};
-class _HomePageState extends State<HomePage> {
-  
-  //The list with all the different posts in it 
-  List<Posts> postsList = [];
 
+final Map<int, Widget> logoWidgets = const <int, Widget>{
+  0: Text('Social Feed'),
+  1: Text('Discussion'),
+};
+
+int sharedValue = 0;
+
+class _HomePageState extends State<HomePage> {
+  //The list with all the different posts in it
+  List<Posts> postsList = [];
+  Map<int, Widget> postWidgets;
+  //The list with all the different discussions in it
+  List<Discussions> discussionsList = [];
+  Map<int, Widget> discussionWidgets;
   //This message will be called everytime the user visits
   //the homepage. within this message we will retrieve posts
   //from the database
@@ -56,287 +45,357 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    DatabaseReference postsRef = FirebaseDatabase.instance.reference().child("Posts");
-    postsRef.once().then((DataSnapshot snap)
-    {
-      var KEYS = snap.value.keys;
-      var DATA = snap.value; 
-
+    DatabaseReference postsRef =
+        FirebaseDatabase.instance.reference().child("Posts");
+    DatabaseReference discussionsRef =
+        FirebaseDatabase.instance.reference().child("Discussions");
+    postsRef.once().then((DataSnapshot snap) {
+      var keys = snap.value.keys;
+      var data = snap.value;
       postsList.clear();
-      for(var individualKey in KEYS)
-      {
+      for (var individualKey in keys) {
         Posts posts = new Posts(
-          DATA[individualKey]['username'], 
-          DATA[individualKey]['image'], 
-          DATA[individualKey]['description'],
-          DATA[individualKey]['location'],
-          DATA[individualKey]['time'],
+          data[individualKey]['username'],
+          data[individualKey]['image'],
+          data[individualKey]['description'],
+          data[individualKey]['location'],
+          data[individualKey]['time'],
         );
         postsList.add(posts);
       }
-        setState(() 
-        {
-          print('Length: $postsList.length');
-        });
+    });
+    discussionsRef.once().then((DataSnapshot snap) {
+      var discKeys = snap.value.keys;
+      var discData = snap.value;
+      discussionsList.clear();
+      for (var individualKey in discKeys) {
+        Discussions discussions = new Discussions(
+          discData[individualKey]['username'],
+          discData[individualKey]['title'],
+          discData[individualKey]['bodyText'],
+          discData[individualKey]['time'],
+        );
+        discussionsList.add(discussions);
+      }
+    });
+    setState(() {
+      sharedValue = 0;
+      print('Length: $postsList.length');
     });
   }
 
-
-  void logoutUser() async{
-    try{
-      await widget.auth.signOut(); 
+  void logoutUser() async {
+    try {
+      await widget.auth.signOut();
       widget.onSignedOut();
-    }
-    catch(e)
-    {
-      print(e.toString()); 
+    } catch (e) {
+      print(e.toString());
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    postWidgets = getPostWidgets();
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Home"),
-        actions: <Widget>[
+          title: new Text("Home"),
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
             // action button
             IconButton(
               icon: new Icon(Icons.exit_to_app),
               onPressed: logoutUser,
             ),
+            // new IconButton(
+            //   icon: new Icon(Icons.message),
+            //   iconSize: 30,
+            //   color: Colors.white,
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) {
+            //         return new UploadDiscussionPage();
+            //       }),
+            //     );
+            //   },
+            // ),
             new IconButton(
-                  icon: new Icon(Icons.add_a_photo),
-                  iconSize: 30,
-                  color: Colors.white,
-                  onPressed: ( )
-                  {
-                    Navigator.push
-                    (
-                      context, 
-                      MaterialPageRoute(builder: (context)
-                      {
-                          return new UploadPhotoPage(); 
-                      }),
-                    );
-
-                  },
-                ),
-        ]
-      ),
-      body: 
-      new Container(
-        child: postsList.length == 0 ? new Text("No Posts available"): new ListView.builder
-        (
-          itemCount: postsList.length,
-          itemBuilder: (_, index)
-          {
-            return PostsUI(postsList[index].username, postsList[index].image, postsList[index].description, postsList[index].location, postsList[index].time);
-          },
-
-        )
-      ),
-
-      bottomNavigationBar: new BottomAppBar(
-        color: Colors.teal,
-        
-        child: new Container(
-            margin: const EdgeInsets.only(left: 70.0, right: 70.0),
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                new IconButton(
-                  icon: new Image.asset('images/dyeicon.png'),
-                  iconSize: 50,
-                  color: Colors.white,
-                  onPressed: ( )
-                  {
-                    Navigator.push
-                    (
-                      context, 
-                      MaterialPageRoute(builder: (context)
-                      {
-                          return new InfoPage(); 
-                      }),
-                    );
-
-                  },
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.forum),
-                  iconSize: 30,
-                  color: Colors.white,
-                  onPressed: ( )
-                  {
-                    Navigator.push
-                    (
-                      context, 
-                      MaterialPageRoute(builder: (context)
-                      {
-                          return new DiscussionPage(); 
-                      }),
-                    );
-
-                  },
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.person),
-                  iconSize: 30,
-                  color: Colors.white,
-                  onPressed: ( )
-                  {
-                    Navigator.push
-                    (
-                      context, 
-                      MaterialPageRoute(builder: (context)
-                      {
-                          return new ProfilePage(); 
-                      }),
-                    );
-
-                  },
-                ),
- 
-              ],
-            )),
-      ),
-    );
-  }   
-  
-  Widget discussionUI(String username, String bodytext, String time)
-  {
-    return new Card(
-      elevation: 10.0,
-      margin: EdgeInsets.all(15.0),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-
+              icon: new Icon(Icons.add),
+              iconSize: 30,
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return new ChoosePostPage();
+                  }),
+                );
+              },
+            ),
+          ]),
+      body: Column(
         children: <Widget>[
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>
-              [
-                  new Text(
-                    username, 
-                    style: Theme.of(context).textTheme.subhead,
-                    textAlign: TextAlign.center,
-                    
-                  ),
-              ],
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+          ),
+          SizedBox(
+            width: 500.0,
+            child: CupertinoSegmentedControl<int>(
+              children: logoWidgets,
+              onValueChanged: (int val) {
+                setState(() {
+                  sharedValue = val;
+                });
+              },
+              groupValue: sharedValue,
             ),
-            new Text(
-                  bodytext, 
-                  style: Theme.of(context).textTheme.subhead,
-                  textAlign: TextAlign.center,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 2.0,
+                horizontal: 4.0,
+              ),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 0.0,
+                  horizontal: 4.0,
+                ),
+                child: postWidgets[sharedValue],
+              ),
             ),
-            SizedBox(height:5.0,),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>
-              [
-                  new Text(
-                    time, 
-                    style: Theme.of(context).textTheme.subtitle,
-                    textAlign: TextAlign.right,
-                  ),
-                  //Note: al the buttons below do not have functionality yet. when pressed they will simply sign
-                  //the user out instead of their intended function
-                  new IconButton(
-                    icon: new Icon(Icons.favorite_border),
-                    iconSize: 25,
-                    color: Colors.teal,
-                    onPressed: null, //Ability to like will be added later on
-                  ),
-                  new IconButton(
-                    icon: new Icon(Icons.insert_comment),
-                    iconSize: 25,
-                    color: Colors.teal,
-                    onPressed: null, //ability to comment later on
-                  ),
-                  new IconButton(
-                    icon: new Icon(Icons.mobile_screen_share),
-                    iconSize: 25,
-                    color: Colors.teal,
-                    onPressed: null, //have option to share later on
-                  ),
-              ],
-            ),
+          ),
+          BottomAppBar(
+            color: Colors.teal,
+            child: new Container(
+                margin: const EdgeInsets.only(left: 70.0, right: 70.0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    new IconButton(
+                      icon: new Image.asset('images/dyeicon.png'),
+                      iconSize: 50,
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return new InfoPage();
+                          }),
+                        );
+                      },
+                    ),
+                    new IconButton(
+                      icon: new Icon(Icons.forum),
+                      iconSize: 30,
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return new HomePage();
+                          }),
+                        );
+                      },
+                    ),
+                    new IconButton(
+                      icon: new Icon(Icons.person),
+                      iconSize: 30,
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return new ProfilePage();
+                          }),
+                        );
+                      },
+                    ),
+                  ],
+                )),
+          ),
         ],
       ),
-
-
     );
   }
-  Widget PostsUI(String username, String image, String description, String location, String time)
-  {
+
+  Widget discussionUI(
+      String username, String title, String bodyText, String time) {
     return new Card(
       elevation: 10.0,
       margin: EdgeInsets.all(15.0),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: <Widget>[
-            new Row(
+          new Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>
-              [
-                  new Text(
-                    username, 
-                    style: Theme.of(context).textTheme.subhead,
-                    textAlign: TextAlign.center,
-                    
-                  ),
-                  new Text(
-                    location, 
-                    style: Theme.of(context).textTheme.subtitle, 
-                    textAlign: TextAlign.center,
-                  ),
-              ],
-            ),
-            SizedBox(height:3.0,),
-
-            new Image.network(image, fit: BoxFit.cover),
-            SizedBox(height:5.0,),
-            new Text(
-                  description, 
+              children: <Widget>[
+                new Text(
+                  username,
                   style: Theme.of(context).textTheme.subhead,
                   textAlign: TextAlign.center,
-            ),
-            SizedBox(height:5.0,),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>
-              [
-                  new Text(
-                    time, 
-                    style: Theme.of(context).textTheme.subtitle,
-                    textAlign: TextAlign.right,
-                  ),
-                  //Note: al the buttons below do not have functionality yet. when pressed they will simply sign
-                  //the user out instead of their intended function
-                  new IconButton(
-                    icon: new Icon(Icons.favorite_border),
-                    iconSize: 25,
-                    color: Colors.teal,
-                    onPressed: null, //Ability to like will be added later on
-                  ),
-                  new IconButton(
-                    icon: new Icon(Icons.insert_comment),
-                    iconSize: 25,
-                    color: Colors.teal,
-                    onPressed: null, //ability to comment later on
-                  ),
-                  new IconButton(
-                    icon: new Icon(Icons.mobile_screen_share),
-                    iconSize: 25,
-                    color: Colors.teal,
-                    onPressed: null, //have option to share later on
-                  ),
-              ],
-            ),
+                ),
+              ]),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text(
+                title,
+                style: Theme.of(context).textTheme.headline,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          new Text(
+            bodyText,
+            style: Theme.of(context).textTheme.body1,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              new Text(
+                time,
+                style: Theme.of(context).textTheme.subtitle,
+                textAlign: TextAlign.right,
+              ),
+              //Note: all the buttons below do not have functionality yet. when pressed they will simply sign
+              //the user out instead of their intended function
+              new IconButton(
+                icon: new Icon(Icons.favorite_border),
+                iconSize: 25,
+                color: Colors.teal,
+                onPressed: null, //Ability to like will be added later on
+              ),
+              new IconButton(
+                icon: new Icon(Icons.insert_comment),
+                iconSize: 25,
+                color: Colors.teal,
+                onPressed: null, //ability to comment later on
+              ),
+              new IconButton(
+                icon: new Icon(Icons.mobile_screen_share),
+                iconSize: 25,
+                color: Colors.teal,
+                onPressed: null, //have option to share later on
+              ),
+            ],
+          ),
         ],
       ),
-
-
     );
+  }
+
+  Widget postsUI(String username, String image, String description,
+      String location, String time) {
+    return new Card(
+      elevation: 10.0,
+      margin: EdgeInsets.all(15.0),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text(
+                username,
+                style: Theme.of(context).textTheme.subhead,
+                textAlign: TextAlign.center,
+              ),
+              new Text(
+                location,
+                style: Theme.of(context).textTheme.subtitle,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 3.0,
+          ),
+          new Image.network(image, fit: BoxFit.cover),
+          SizedBox(
+            height: 5.0,
+          ),
+          new Text(
+            description,
+            style: Theme.of(context).textTheme.subhead,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              new Text(
+                time,
+                style: Theme.of(context).textTheme.subtitle,
+                textAlign: TextAlign.right,
+              ),
+              //Note: al the buttons below do not have functionality yet. when pressed they will simply sign
+              //the user out instead of their intended function
+              new IconButton(
+                icon: new Icon(Icons.favorite_border),
+                iconSize: 25,
+                color: Colors.teal,
+                onPressed: null, //Ability to like will be added later on
+              ),
+              new IconButton(
+                icon: new Icon(Icons.insert_comment),
+                iconSize: 25,
+                color: Colors.teal,
+                onPressed: null, //ability to comment later on
+              ),
+              new IconButton(
+                icon: new Icon(Icons.mobile_screen_share),
+                iconSize: 25,
+                color: Colors.teal,
+                onPressed: null, //have option to share later on
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+// HERE: added in
+  Map<int, Widget> getPostWidgets() {
+    Map<int, Widget> postWidgets = <int, Widget>{
+      0: Center(
+          child: new Container(
+              child: postsList.length == 0
+                  ? new Text("No Posts available")
+                  : new ListView.builder(
+                      itemCount: postsList.length,
+                      itemBuilder: (_, index) {
+                        return postsUI(
+                            postsList[index].username,
+                            postsList[index].image,
+                            postsList[index].description,
+                            postsList[index].location,
+                            postsList[index].time);
+                      },
+                    ))),
+      1: Center(
+          child: new Container(
+              child: discussionsList.length == 0
+                  ? new Text("No Posts available")
+                  : new ListView.builder(
+                      itemCount: discussionsList.length,
+                      itemBuilder: (_, index) {
+                        return discussionUI(
+                            discussionsList[index].username,
+                            discussionsList[index].title,
+                            discussionsList[index].bodyText,
+                            discussionsList[index].time);
+                      },
+                    ))),
+    };
+    return postWidgets;
   }
 }

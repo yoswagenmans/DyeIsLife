@@ -28,8 +28,8 @@
 @import firebase_storage;
 #endif
 
-#if __has_include(<image_picker/FLTImagePickerPlugin.h>)
-#import <image_picker/FLTImagePickerPlugin.h>
+#if __has_include(<image_picker/ImagePickerPlugin.h>)
+#import <image_picker/ImagePickerPlugin.h>
 #else
 @import image_picker;
 #endif

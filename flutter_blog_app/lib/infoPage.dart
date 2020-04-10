@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'DiscussionPage.dart';
 import 'ProfilePage.dart';
 import 'RulesPage.dart';
 import 'WebPage.dart';
+import 'HomePage.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -132,7 +132,7 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(title: Text('DyeIsLife')),
+      appBar: AppBar(title: Text('DyeIsLife'), automaticallyImplyLeading: false,),
       body: ListView(
         children: <Widget>[
           Image.asset('images/dyeislifetext.png', height: 100),
@@ -222,7 +222,7 @@ class _InfoPageState extends State<InfoPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) {
-                        return new DiscussionPage();
+                        return new HomePage();
                       }),
                     );
                   },

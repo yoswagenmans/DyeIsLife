@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'Authentication.dart';
 import 'DialogBox.dart';
-class LoginRegisterPage extends StatefulWidget {
 
+class LoginRegisterPage extends StatefulWidget {
   LoginRegisterPage({
     this.auth,
     this.onSignedIn,
   });
   final AuthImplementation auth;
-  final VoidCallback onSignedIn; 
+  final VoidCallback onSignedIn;
   State<StatefulWidget> createState() {
     return _LoginRegisterState();
   }
-
-
-
 }
 
 enum FormType { login, register }
 
 class _LoginRegisterState extends State<LoginRegisterPage> {
-
   DialogBox dialogBox = new DialogBox();
   final formKey = new GlobalKey<FormState>();
   FormType _formType = FormType.login;
@@ -30,42 +26,34 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
   //methods
   bool validateAndSave() {
     final form = formKey.currentState;
-    if (form.validate())
-    {
+    if (form.validate()) {
       form.save();
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
-  void validateAndSubmit() async
-  {
-    if (validateAndSave())
-    {
-      try
-      {
-          if(_formType == FormType.login)
-          {
-            String userId = await widget.auth.signIn(_email, _password);
-            //dialogBox.information(context, "Congratulations", "you are logged in succesfully");
-            print("login userId = " + userId);
-          }
-          else
-          {
-            String userId = await widget.auth.signUp(_email, _password);
-            //dialogBox.information(context, "Congratulations", "your account has been created succesfully");
-            print("Register userId = " + userId);
-          }
-          widget.onSignedIn(); 
-      }
-      catch(e)
-      {
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        if (_formType == FormType.login) {
+          String userId = await widget.auth.signIn(_email, _password);
+          //dialogBox.information(context, "Congratulations", "you are logged in succesfully");
+          print("login userId = " + userId);
+        } else {
+          String userId = await widget.auth.signUp(_email, _password);
+          //dialogBox.information(context, "Congratulations", "your account has been created succesfully");
+          print("Register userId = " + userId);
+        }
+        widget.onSignedIn();
+      } catch (e) {
         dialogBox.information(context, "Error", e.toString());
         print("Error = " + e.toString());
       }
     }
   }
+
   void moveToRegister() {
     formKey.currentState.reset();
     setState(() {
@@ -163,11 +151,11 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
           onPressed: moveToRegister,
         ),
       ];
-    }
-    else{
+    } else {
       return [
         new RaisedButton(
-          child: new Text("Create Account", style: new TextStyle(fontSize: 20.0)),
+          child:
+              new Text("Create Account", style: new TextStyle(fontSize: 20.0)),
           textColor: Colors.white,
           color: Colors.pink,
           onPressed: validateAndSubmit,

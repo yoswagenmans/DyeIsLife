@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog_app/Authentication.dart';
-import 'DiscussionPage.dart';
 import 'infoPage.dart';
-import 'PhotoUpload.dart';
 import 'HomePage.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -25,14 +23,22 @@ class _ProfilePageState extends State<ProfilePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("My Profile"),
+        automaticallyImplyLeading: false,
         centerTitle: true,
       ),
-      body: new IconButton(
-        icon: new Icon(Icons.exit_to_app),
-        iconSize: 50,
-        color: Colors.teal,
-        onPressed: null, //Add logoutuser later on
-      ),
+      
+      body: 
+       new CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 50.0,
+          child: Image.asset('images/app_logo.jpeg'),
+        ),
+        
+        // IconButton(
+        // icon: new Icon(Icons.exit_to_app),
+        // iconSize: 50,
+        // color: Colors.teal,
+        // onPressed: logoutUser, //Add logoutuser later on
       bottomNavigationBar: new BottomAppBar(
         color: Colors.teal,
         
@@ -70,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       context, 
                       MaterialPageRoute(builder: (context)
                       {
-                          return new DiscussionPage(); 
+                          return new HomePage(); 
                       }),
                     );
 
@@ -97,6 +103,16 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             )),
       ),
+      
+      
     );
+  }
+  void logoutUser() async {
+    try {
+      await widget.auth.signOut();
+      widget.onSignedOut();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
