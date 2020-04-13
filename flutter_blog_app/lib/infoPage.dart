@@ -4,7 +4,6 @@ import 'RulesPage.dart';
 import 'WebPage.dart';
 import 'HomePage.dart';
 
-import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 

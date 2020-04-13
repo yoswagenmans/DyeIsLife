@@ -22,6 +22,7 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
   FormType _formType = FormType.login;
   String _email = "";
   String _password = "";
+  String _username = "";
 
   //methods
   bool validateAndSave() {
@@ -108,6 +109,19 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
       ),
       SizedBox(
         height: 10.0,
+      ),
+      new TextFormField(
+        decoration: new InputDecoration(labelText: 'Username'),
+        obscureText: true,
+        validator: (value) {
+          return value.isEmpty ? 'Username is required' : null;
+        },
+        onSaved: (value) {
+          return _username = value;
+        },
+      ),
+      SizedBox(
+        height: 20.0,
       ),
       new TextFormField(
         decoration: new InputDecoration(labelText: 'Password'),
