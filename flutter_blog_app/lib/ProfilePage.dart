@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog_app/Authentication.dart';
 import 'infoPage.dart';
 import 'HomePage.dart';
+import 'EditProfile.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({
@@ -21,11 +22,28 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("My Profile"),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-      ),
+       appBar: new AppBar(
+          title: new Text("My Profile"),
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            // action button
+            FlatButton(
+            child: Text('Edit Profile'),
+            textColor: Colors.white,
+            onPressed: ( )
+                  {
+                    Navigator.push
+                    (
+                      context, 
+                      MaterialPageRoute(builder: (context)
+                      {
+                          return new EditProfilePage(); 
+                      }),
+                    );
+
+                  },
+          )
+          ]),
       
       body: 
        new CircleAvatar(
@@ -33,7 +51,6 @@ class _ProfilePageState extends State<ProfilePage> {
           radius: 50.0,
           child: Image.asset('images/app_logo.jpeg'),
         ),
-        
         // IconButton(
         // icon: new Icon(Icons.exit_to_app),
         // iconSize: 50,
