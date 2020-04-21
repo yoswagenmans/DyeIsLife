@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'Discussions.dart';
 import 'DiscussionUpload.dart';
 import 'ChoosePost.dart';
+import 'Authentication.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -246,6 +247,9 @@ class _HomePageState extends State<HomePage> {
                 textAlign: TextAlign.center,
               ),
             ],
+          ),
+          SizedBox(
+            height: 12,
           ),
           new Text(
             bodyText,

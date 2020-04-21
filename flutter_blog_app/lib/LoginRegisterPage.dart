@@ -112,7 +112,7 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
       ),
       new TextFormField(
         decoration: new InputDecoration(labelText: 'Username'),
-        obscureText: true,
+        obscureText: false,
         validator: (value) {
           return value.isEmpty ? 'Username is required' : null;
         },

@@ -3,6 +3,7 @@ import 'package:flutter_blog_app/Authentication.dart';
 import 'infoPage.dart';
 import 'HomePage.dart';
 import 'EditProfile.dart';
+import 'ChangeProfilePhoto.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({
@@ -56,6 +57,19 @@ class _ProfilePageState extends State<ProfilePage> {
                   'https://www.nwchess.com/articles/events/2011/images/WJOR_2011_Yos.JPG',
                   fit: BoxFit.fitWidth),
             ),
+            new FlatButton(
+              child: Text('Change Profile Pic'),
+              color: Colors.grey,
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return new ChangeProfilePhotoPage();
+                  }),
+                );
+              },
+            ),
             new SizedBox(
               height: 20.0,
             ),
@@ -86,6 +100,22 @@ class _ProfilePageState extends State<ProfilePage> {
               "I have been worshipping Yos for the past two years. He has blocked me on all forms of social media so this is the only way I can contact him",
               style: Theme.of(context).textTheme.subhead,
               textAlign: TextAlign.center,
+            ),
+            new SizedBox(
+              height: 10.0,
+            ),
+            new FlatButton(
+              child: Text('Edit Profile'),
+              color: Colors.grey,
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return new EditProfilePage();
+                  }),
+                );
+              },
             ),
           ],
         ),
