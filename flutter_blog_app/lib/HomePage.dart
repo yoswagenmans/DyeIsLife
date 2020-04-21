@@ -221,6 +221,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
   Widget discussionUI(
       String username, String title, String bodyText, String time) {
     return new Card(
