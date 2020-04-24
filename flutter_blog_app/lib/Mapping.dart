@@ -4,10 +4,8 @@ import 'LoginRegisterPage.dart';
 import 'HomePage.dart';
 
 class MappingPage extends StatefulWidget {
-  final AuthImplementation auth;
-  MappingPage({
-    this.auth,
-  });
+  
+  MappingPage();
   State<StatefulWidget> createState() {
     return _MappingPageState();
   }
@@ -19,12 +17,12 @@ enum AuthStatus {
 }
 
 class _MappingPageState extends State<MappingPage> {
-  AuthStatus authStatus = AuthStatus.notSignedIn;
+  AuthStatus authStatus = AuthStatus.notSignedIn; //This variable is not kept up to date after init launch
   @override
   void initState() 
   {
     super.initState();
-    widget.auth.getCurrentUser().then((firebaseUserId)
+    AuthImplementation.getCurrentUser().then((firebaseUserId)
     {
         setState((){
             authStatus = firebaseUserId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
@@ -32,20 +30,20 @@ class _MappingPageState extends State<MappingPage> {
     });
   }
 
-void _signedIn()
-{
-  setState(()
-  {
-      authStatus = AuthStatus.signedIn;
-  });  
-}
-void _signOut()
-{
-  setState(()
-  {
-      authStatus = AuthStatus.notSignedIn;
-  });  
-}
+// void _signedIn()
+// {
+//   setState(()
+//   {
+//       authStatus = AuthStatus.signedIn;
+//   });  
+// }
+// void _signOut()
+// {
+//   setState(()
+//   {
+//       authStatus = AuthStatus.notSignedIn;
+//   });  
+// }
 
 
   @override
@@ -55,14 +53,12 @@ void _signOut()
       case AuthStatus.notSignedIn:  
       return new LoginRegisterPage
       (
-        auth: widget.auth, 
-        onSignedIn: _signedIn,
+
       );
       case AuthStatus.signedIn:  
       return new HomePage
       (
-        auth: widget.auth, 
-        onSignedOut: _signOut,
+ 
       );
 
     }

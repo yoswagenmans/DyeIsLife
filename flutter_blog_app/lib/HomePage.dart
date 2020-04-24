@@ -1,23 +1,18 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog_app/Authentication.dart';
-import 'PhotoUpload.dart';
+//import 'PhotoUpload.dart';
 import 'Posts.dart';
 import 'ProfilePage.dart';
 import 'infoPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'Discussions.dart';
-import 'DiscussionUpload.dart';
+//import 'DiscussionUpload.dart';
 import 'ChoosePost.dart';
 import 'Authentication.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({
-    this.auth,
-    this.onSignedOut,
-  });
-  final AuthImplementation auth;
-  final VoidCallback onSignedOut;
+  HomePage();
 
   @override
   State<StatefulWidget> createState() {
@@ -34,6 +29,7 @@ int sharedValue = 0;
 
 class _HomePageState extends State<HomePage> {
   //The list with all the different posts in it
+
   List<Posts> postsList = [];
   Map<int, Widget> postWidgets;
   //The list with all the different discussions in it
@@ -87,8 +83,8 @@ class _HomePageState extends State<HomePage> {
 
   void logoutUser() async {
     try {
-      await widget.auth.signOut();
-      widget.onSignedOut();
+      await AuthImplementation.signOut();
+      //widget.onSigned();
     } catch (e) {
       print(e.toString());
     }
@@ -107,19 +103,6 @@ class _HomePageState extends State<HomePage> {
               icon: new Icon(Icons.exit_to_app),
               onPressed: logoutUser,
             ),
-            // new IconButton(
-            //   icon: new Icon(Icons.message),
-            //   iconSize: 30,
-            //   color: Colors.white,
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) {
-            //         return new UploadDiscussionPage();
-            //       }),
-            //     );
-            //   },
-            // ),
             new IconButton(
               icon: new Icon(Icons.add),
               iconSize: 30,
@@ -221,7 +204,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Widget discussionUI(
       String username, String title, String bodyText, String time) {
     return new Card(
@@ -268,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.subtitle,
                 textAlign: TextAlign.right,
               ),
-              //Note: all the buttons below do not have functionality yet. when pressed they will simply sign
+              //Note: all the buttons below do not have functionality yet. when pressed they do nothing
               //the user out instead of their intended function
               new IconButton(
                 icon: new Icon(Icons.favorite_border),

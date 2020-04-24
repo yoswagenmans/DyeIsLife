@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog_app/Authentication.dart';
+import 'package:flutter_blog_app/LoginRegisterPage.dart';
 import 'infoPage.dart';
 import 'HomePage.dart';
 import 'EditProfile.dart';
 import 'ChangeProfilePhoto.dart';
+//import 'Mapping.dart';
+import 'Authentication.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({
-    this.auth,
+    //this.auth,
     this.onSignedOut,
   });
-  final AuthImplementation auth;
+  //final AuthImplementation auth;
   final VoidCallback onSignedOut;
 
   @override
@@ -22,101 +25,126 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    //print("test 11 " + AuthImplementation.getCurrentUser().toString());
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text("My Profile"),
+          title: new Text("MY Profile"),
           automaticallyImplyLeading: false,
           actions: <Widget>[
             // action button
-            FlatButton(
-              child: Text('Edit Profile'),
-              textColor: Colors.white,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return new EditProfilePage();
-                  }),
-                );
-              },
-            )
+            IconButton(
+              icon: new Icon(Icons.exit_to_app),
+              onPressed: logoutUser,
+            ),
           ]),
 
       body: new Card(
         elevation: 10.0,
         margin: EdgeInsets.all(15.0),
         child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new SizedBox(
               height: 20.0,
             ),
-            new SizedBox(
-              height: 200.0,
-              child: new Image.network(
-                  'https://www.nwchess.com/articles/events/2011/images/WJOR_2011_Yos.JPG',
-                  fit: BoxFit.fitWidth),
-            ),
-            new FlatButton(
-              child: Text('Change Profile Pic'),
-              color: Colors.grey,
-              textColor: Colors.white,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return new ChangeProfilePhotoPage();
-                  }),
-                );
-              },
-            ),
+            new Row(children: <Widget>[
+              new SizedBox(
+                width: 20.0,
+              ),
+              new Column(children: <Widget>[
+                new Container(
+                    width: 100.0,
+                    height: 100.0,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: new NetworkImage(
+                                "https://www.nwchess.com/articles/events/2011/images/WJOR_2011_Yos.JPG")))),
+                new SizedBox(
+                  height: 3.0,
+                ),
+                new Container(
+                  width: 100.0,
+                  height: 30,
+                  child: new FlatButton(
+                    child: Text('Change Pic', style: TextStyle(fontSize: 10)),
+                    color: Color.fromRGBO(52, 52, 53, 1),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return new ChangeProfilePhotoPage();
+                        }),
+                      );
+                    },
+                  ),
+                ),
+              ]),
+              new SizedBox(
+                width: 50.0,
+              ),
+              new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Text(
+                          "@yosfanpage",
+                          style: Theme.of(context).textTheme.headline,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Text(
+                          "Seattle, WA",
+                          style: Theme.of(context).textTheme.subhead,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ])
+            ]),
             new SizedBox(
               height: 20.0,
             ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            new SizedBox(
+              height: 5.0,
+            ),
+            new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 new Text(
-                  "@yosfanpage",
+                  "I have been worshipping Yos for the past two years. He has blocked me on all forms of social media so this is the only way I can contact him",
                   style: Theme.of(context).textTheme.subhead,
                   textAlign: TextAlign.center,
                 ),
-              ],
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text(
-                  "Seattle, WA",
-                  style: Theme.of(context).textTheme.subhead,
-                  textAlign: TextAlign.center,
+                new SizedBox(
+                  height: 10.0,
+                ),
+                new Container(
+                  width: 300,
+                  child: new FlatButton(
+                    child: Text('Edit Profile'),
+                    color: Color.fromRGBO(52, 52, 53, 1),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return new EditProfilePage();
+                        }),
+                      );
+                    },
+                  ),
                 ),
               ],
-            ),
-            new SizedBox(
-              height: 20.0,
-            ),
-            new Text(
-              "I have been worshipping Yos for the past two years. He has blocked me on all forms of social media so this is the only way I can contact him",
-              style: Theme.of(context).textTheme.subhead,
-              textAlign: TextAlign.center,
-            ),
-            new SizedBox(
-              height: 10.0,
-            ),
-            new FlatButton(
-              child: Text('Edit Profile'),
-              color: Colors.grey,
-              textColor: Colors.white,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return new EditProfilePage();
-                  }),
-                );
-              },
-            ),
+            )
           ],
         ),
       ),
@@ -185,8 +213,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void logoutUser() async {
     try {
-      await widget.auth.signOut();
-      widget.onSignedOut();
+      await AuthImplementation.signOut();
+      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return new LoginRegisterPage();
+                      }),
+                    );
+
     } catch (e) {
       print(e.toString());
     }

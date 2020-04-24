@@ -1,36 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:flutter/material.dart';
 
-abstract class AuthImplementation {
-  Future<String> signIn(String email, String password);
-  Future<String> signUp(String email, String password);
-  Future<String> getCurrentUser();
-  Future<void> signOut();
-}
 
-class Auth implements AuthImplementation {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  Future<String> signIn(String email, String password) async {
+class AuthImplementation {
+  static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  static Future<String> signIn(String email, String password) async {
     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
     return user.uid;
   }
-  Future<String> signUp(String email, String password) async {
+  static Future<String> signUp(String email, String password) async {
         AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
     return user.uid;
   }
 
-  Future<String> getCurrentUser() async {
+  static Future<String> getCurrentUser() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     if (user == null) {
       return null;
     }
+    print(user.uid);
     return user.uid;
   }
 
-  Future<void> signOut() async {
+  static Future<void> signOut() async {
+    print("it called the sign out method");
+  
     _firebaseAuth.signOut();
+    
+    
   }
 }

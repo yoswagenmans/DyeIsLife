@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'DiscussionUpload.dart';
 import 'PhotoUpload.dart';
+//import 'package:image_picker/image_picker.dart';
 
 class ChoosePostPage extends StatefulWidget {
   
@@ -12,6 +13,7 @@ class ChoosePostPage extends StatefulWidget {
 
 class _ChoosePostPageState extends State<ChoosePostPage> {
   @override
+  
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
@@ -19,8 +21,9 @@ class _ChoosePostPageState extends State<ChoosePostPage> {
         centerTitle: true,
       ),
       body: new Column(children: <Widget>[
+        new SizedBox(height: 30),
         new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             new IconButton(

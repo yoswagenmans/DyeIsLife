@@ -4,22 +4,6 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/FLTImagePickerImageUtil.h</key>
-		<data>
-		ZpV0IVvZe+QoN9ibIdFjySW71JA=
-		</data>
-		<key>Headers/FLTImagePickerMetaDataUtil.h</key>
-		<data>
-		+0nZlYdgG2C050GBEYmQPWB3q4Q=
-		</data>
-		<key>Headers/FLTImagePickerPhotoAssetUtil.h</key>
-		<data>
-		EWaT3q4MsX6JiAEKP6Vo0360Sb4=
-		</data>
-		<key>Headers/FLTImagePickerPlugin.h</key>
-		<data>
-		CUtpSWrNeqgF2l5H3dw9veyxAxk=
-		</data>
 		<key>Headers/ImagePickerPlugin.h</key>
 		<data>
 		pTQUZ+gL7AqLwSD0d0JVGka9DCU=
@@ -39,50 +23,6 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/FLTImagePickerImageUtil.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ZpV0IVvZe+QoN9ibIdFjySW71JA=
-			</data>
-			<key>hash2</key>
-			<data>
-			uWz8TGF+yprQwUKFeOhQaAvkv41ByTh8engTR2iZynw=
-			</data>
-		</dict>
-		<key>Headers/FLTImagePickerMetaDataUtil.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			+0nZlYdgG2C050GBEYmQPWB3q4Q=
-			</data>
-			<key>hash2</key>
-			<data>
-			d91apzZ4hREU+kZsQBxkdfOrQdsMiiPI/Fz5pRdiQK4=
-			</data>
-		</dict>
-		<key>Headers/FLTImagePickerPhotoAssetUtil.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			EWaT3q4MsX6JiAEKP6Vo0360Sb4=
-			</data>
-			<key>hash2</key>
-			<data>
-			yM7wCYEFBoiPOqzQk+Czud7k2n4GVMHtpT9xfmRUm48=
-			</data>
-		</dict>
-		<key>Headers/FLTImagePickerPlugin.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			CUtpSWrNeqgF2l5H3dw9veyxAxk=
-			</data>
-			<key>hash2</key>
-			<data>
-			atLErw1rQM3N0F0S+SQtJkSM3tdgVUEusi/UQ1fpFpo=
-			</data>
-		</dict>
 		<key>Headers/ImagePickerPlugin.h</key>
 		<dict>
 			<key>hash</key>

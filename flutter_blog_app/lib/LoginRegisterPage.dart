@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'Authentication.dart';
 import 'DialogBox.dart';
+import 'HomePage.dart';
 
 class LoginRegisterPage extends StatefulWidget {
-  LoginRegisterPage({
-    this.auth,
-    this.onSignedIn,
-  });
-  final AuthImplementation auth;
-  final VoidCallback onSignedIn;
+  LoginRegisterPage();
+  
+  //final VoidCallback onSignedIn;
   State<StatefulWidget> createState() {
     return _LoginRegisterState();
   }
@@ -39,15 +37,21 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
     if (validateAndSave()) {
       try {
         if (_formType == FormType.login) {
-          String userId = await widget.auth.signIn(_email, _password);
+          String userId = await AuthImplementation.signIn(_email, _password);
+                Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return new HomePage();
+                      }),
+                    );
           //dialogBox.information(context, "Congratulations", "you are logged in succesfully");
           print("login userId = " + userId);
         } else {
-          String userId = await widget.auth.signUp(_email, _password);
+          String userId = await AuthImplementation.signUp(_email, _password);
           //dialogBox.information(context, "Congratulations", "your account has been created succesfully");
           print("Register userId = " + userId);
         }
-        widget.onSignedIn();
+        //widget.onSignedIn();
       } catch (e) {
         dialogBox.information(context, "Error", e.toString());
         print("Error = " + e.toString());
@@ -75,6 +79,7 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Flutter Blog App"),
+        automaticallyImplyLeading: false,
       ),
       body: new Container(
         margin: EdgeInsets.all(15.8),

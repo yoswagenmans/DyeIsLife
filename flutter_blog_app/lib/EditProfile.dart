@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+//import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'ProfilePage.dart';
+//import 'Authentication.dart';
 
 class EditProfilePage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -45,6 +46,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    //print(getCurrentUser());
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Edit Profile"),
