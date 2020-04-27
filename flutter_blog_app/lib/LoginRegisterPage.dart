@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'Authentication.dart';
 import 'DialogBox.dart';
 import 'HomePage.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class LoginRegisterPage extends StatefulWidget {
   LoginRegisterPage();
-  
+
   //final VoidCallback onSignedIn;
   State<StatefulWidget> createState() {
     return _LoginRegisterState();
@@ -38,16 +39,33 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
       try {
         if (_formType == FormType.login) {
           String userId = await AuthImplementation.signIn(_email, _password);
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return new HomePage();
-                      }),
-                    );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return new HomePage();
+            }),
+          );
           //dialogBox.information(context, "Congratulations", "you are logged in succesfully");
           print("login userId = " + userId);
         } else {
           String userId = await AuthImplementation.signUp(_email, _password);
+          DatabaseReference ref = FirebaseDatabase.instance.reference();
+          var data = {
+            "userid": userId,
+            "username": _username,
+            "email": _email,
+            "bio": "live fast, dye young",
+            "location" : "United States of America",
+            "pic":
+                "gs://blogapp-ece3e.appspot.com/Profile Images/Screen Shot 2020-04-26 at 5.07.11 PM.png",
+          };
+          ref.child("UserInfo").push().set(data);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return new HomePage();
+            }),
+          );
           //dialogBox.information(context, "Congratulations", "your account has been created succesfully");
           print("Register userId = " + userId);
         }
