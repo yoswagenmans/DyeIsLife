@@ -94,10 +94,6 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Flutter Blog App"),
-        automaticallyImplyLeading: false,
-      ),
       body: new Container(
         margin: EdgeInsets.all(15.8),
         child: new Form(

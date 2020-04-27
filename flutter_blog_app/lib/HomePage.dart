@@ -99,10 +99,6 @@ class _HomePageState extends State<HomePage> {
           automaticallyImplyLeading: false,
           actions: <Widget>[
             // action button
-            IconButton(
-              icon: new Icon(Icons.exit_to_app),
-              onPressed: logoutUser,
-            ),
             new IconButton(
               icon: new Icon(Icons.add),
               iconSize: 30,
