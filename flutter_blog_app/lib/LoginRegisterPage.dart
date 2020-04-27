@@ -51,15 +51,14 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
           String userId = await AuthImplementation.signUp(_email, _password);
           DatabaseReference ref = FirebaseDatabase.instance.reference();
           var data = {
-            "userid": userId,
             "username": _username,
             "email": _email,
             "bio": "live fast, dye young",
             "location" : "United States of America",
             "pic":
-                "gs://blogapp-ece3e.appspot.com/Profile Images/Screen Shot 2020-04-26 at 5.07.11 PM.png",
+                "https://firebasestorage.googleapis.com/v0/b/blogapp-ece3e.appspot.com/o/Profile%20Images%2FScreen%20Shot%202020-04-26%20at%205.07.11%20PM.png?alt=media&token=39ad6760-abae-4142-8f75-619213fce9e9",
           };
-          ref.child("UserInfo").push().set(data);
+          ref.child("UserInfo").child(userId).set(data);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {

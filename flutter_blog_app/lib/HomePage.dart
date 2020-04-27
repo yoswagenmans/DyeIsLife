@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+    AuthImplementation.getCurrentUser();
     DatabaseReference postsRef =
         FirebaseDatabase.instance.reference().child("Posts");
     DatabaseReference discussionsRef =

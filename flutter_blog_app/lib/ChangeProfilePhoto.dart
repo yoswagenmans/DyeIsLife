@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'Authentication.dart';
 
 
 class ChangeProfilePhotoPage extends StatefulWidget {
@@ -55,9 +56,9 @@ class _ChangeProfilePhotoPageState extends State<ChangeProfilePhotoPage> {
 
     DatabaseReference ref = FirebaseDatabase.instance.reference();
     var data = {
-      "image": url,
+      "pic": url,
     };
-    ref.child("UserInfo").push().set(data);
+    ref.child("UserInfo").child(AuthImplementation.currentUser).update(data);
   }
 
   void goToHomePage() {
