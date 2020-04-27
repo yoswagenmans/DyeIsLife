@@ -158,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
               elevation: 10.0,
               margin: EdgeInsets.all(15.0),
               child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   new SizedBox(
                     height: 20.0,
