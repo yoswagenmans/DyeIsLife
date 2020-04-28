@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog_app/Authentication.dart';
-import 'package:flutter_blog_app/LoginRegisterPage.dart';
+import 'Authentication.dart';
+import 'LoginRegisterPage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'infoPage.dart';
 import 'HomePage.dart';
 import 'EditProfile.dart';
 import 'ChangeProfilePhoto.dart';
-//import 'Mapping.dart';
-import 'Authentication.dart';
+
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({
-    //this.auth,
     this.onSignedOut,
   });
-  //final AuthImplementation auth;
   final VoidCallback onSignedOut;
 
   @override
@@ -26,32 +23,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   var userId, pic, username, bio, location;
 
-  // @override
-  // void initState() {
-  //   print("im here");
-  //   super.initState();
-  //   DatabaseReference userInfoRef =
-  //       FirebaseDatabase.instance.reference().child("UserInfo");
-  //   userInfoRef.once().then((DataSnapshot snap) {
-  //     var discData = snap.value;
-
-  //     //get user id:
-  //     // userId = AuthImplementation.getCurrentUser().then(onValue)
-
-  //     AuthImplementation.getCurrentUser().then((firebaseUserId) {
-  //       userId = firebaseUserId;
-  //       pic = discData[userId]["pic"];
-  //       username = discData[userId]["username"];
-  //       bio = discData[userId]["bio"];
-  //       location = discData[userId]["location"];
-  //       print("user: " + userId);
-  //       print(bio);
-  //       print(pic);
-  //     });
-  //     //String email = discData[userId]["email"];
-  //   });
-  // }
-
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -65,9 +37,8 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: logoutUser,
             ),
           ]),
-      body: getProfileInfo(),
+      body: getProfileInfo(), 
       bottomNavigationBar: new BottomAppBar(
-        color: Colors.teal,
         child: new Container(
             margin: const EdgeInsets.only(left: 70.0, right: 70.0),
             child: new Row(
@@ -135,8 +106,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget getProfileInfo() {
     var currentUser = AuthImplementation.currentUser;
-    print("poop");
-    print(currentUser);
     return new FutureBuilder(
         future: FirebaseDatabase.instance
             .reference()
@@ -152,8 +121,6 @@ class _ProfilePageState extends State<ProfilePage> {
             username = values["username"];
             bio = values["bio"];
             location = values["location"];
-            print(bio);
-            print(pic);
             return new Card(
               elevation: 10.0,
               margin: EdgeInsets.all(15.0),
@@ -185,8 +152,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: new FlatButton(
                           child: Text('Change Pic',
                               style: TextStyle(fontSize: 10)),
-                          color: Color.fromRGBO(52, 52, 53, 1),
-                          textColor: Colors.white,
+                          color: Color.fromRGBO(197, 195, 198, 1),
+                          textColor: Colors.black,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -247,8 +214,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 300,
                         child: new FlatButton(
                           child: Text('Edit Profile'),
-                          color: Color.fromRGBO(52, 52, 53, 1),
-                          textColor: Colors.white,
+                          color: Color.fromRGBO(197, 195, 198, 1),
+                          textColor: Colors.black,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -269,6 +236,8 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 }
+
+
 
 // userInfoRef.once().then((DataSnapshot snap) {
 //       var discData = snap.value;
@@ -302,3 +271,28 @@ class _ProfilePageState extends State<ProfilePage> {
 //         ),
 //       );
 //     });
+// @override
+  // void initState() {
+  //   print("im here");
+  //   super.initState();
+  //   DatabaseReference userInfoRef =
+  //       FirebaseDatabase.instance.reference().child("UserInfo");
+  //   userInfoRef.once().then((DataSnapshot snap) {
+  //     var discData = snap.value;
+
+  //     //get user id:
+  //     // userId = AuthImplementation.getCurrentUser().then(onValue)
+
+  //     AuthImplementation.getCurrentUser().then((firebaseUserId) {
+  //       userId = firebaseUserId;
+  //       pic = discData[userId]["pic"];
+  //       username = discData[userId]["username"];
+  //       bio = discData[userId]["bio"];
+  //       location = discData[userId]["location"];
+  //       print("user: " + userId);
+  //       print(bio);
+  //       print(pic);
+  //     });
+  //     //String email = discData[userId]["email"];
+  //   });
+  // }

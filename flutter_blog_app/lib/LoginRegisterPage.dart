@@ -162,7 +162,7 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
         tag: 'hero',
         child: new CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 200.0,
+          radius: 100.0,
           child: Image.asset('images/app_logo.jpeg'),
         ));
   }

@@ -1,15 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blog_app/Authentication.dart';
-//import 'PhotoUpload.dart';
+import 'Authentication.dart';
 import 'Posts.dart';
 import 'ProfilePage.dart';
 import 'infoPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'Discussions.dart';
-//import 'DiscussionUpload.dart';
 import 'ChoosePost.dart';
-import 'Authentication.dart';
+
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -84,7 +82,6 @@ class _HomePageState extends State<HomePage> {
   void logoutUser() async {
     try {
       await AuthImplementation.signOut();
-      //widget.onSigned();
     } catch (e) {
       print(e.toString());
     }
@@ -146,7 +143,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           BottomAppBar(
-            color: Colors.teal,
             child: new Container(
                 margin: const EdgeInsets.only(left: 70.0, right: 70.0),
                 child: new Row(
@@ -212,7 +208,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 new Text(
-                  username,
+                  "username",
                   style: Theme.of(context).textTheme.subhead,
                   textAlign: TextAlign.center,
                 ),
@@ -285,7 +281,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               new Text(
-                username,
+                "username",
                 style: Theme.of(context).textTheme.subhead,
                 textAlign: TextAlign.center,
               ),

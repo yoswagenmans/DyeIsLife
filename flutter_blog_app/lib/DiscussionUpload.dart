@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog_app/Authentication.dart';
+import 'Authentication.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'HomePage.dart';

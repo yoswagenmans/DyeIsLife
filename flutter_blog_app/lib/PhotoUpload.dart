@@ -8,6 +8,7 @@ import 'dart:io';
 import 'HomePage.dart';
 import 'credentials.dart';
 import 'package:dio/dio.dart';
+import 'Authentication.dart';
 
 class UploadPhotoPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -63,6 +64,7 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
 
     DatabaseReference ref = FirebaseDatabase.instance.reference();
     var data = {
+      "userId": AuthImplementation.currentUser,
       "username": "@henryhevans",
       "image": url,
       "description": _myValue,

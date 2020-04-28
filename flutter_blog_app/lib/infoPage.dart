@@ -193,7 +193,6 @@ class _InfoPageState extends State<InfoPage> {
         ],
       ),
       bottomNavigationBar: new BottomAppBar(
-        color: Colors.teal,
         child: new Container(
             margin: const EdgeInsets.only(left: 70.0, right: 70.0),
             child: new Row(
