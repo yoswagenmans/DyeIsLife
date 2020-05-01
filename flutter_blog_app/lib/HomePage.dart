@@ -7,7 +7,8 @@ import 'infoPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'Discussions.dart';
 import 'ChoosePost.dart';
-
+import 'CommentPage.dart';
+import 'DiscussionCommentPage.dart';
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -87,6 +88,16 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // void likePost()
+  // {
+  //   DatabaseReference ref = FirebaseDatabase.instance.reference();
+  //   var data = {
+  //     "userID": AuthImplementation.getCurrentUser(),
+  //     "liked": true,
+  //   };
+  //   String postID = "testId";
+  //   ref.child("Likes").child(postID).update(data);
+  // }
   @override
   Widget build(BuildContext context) {
     postWidgets = getPostWidgets();
@@ -254,7 +265,15 @@ class _HomePageState extends State<HomePage> {
                 icon: new Icon(Icons.insert_comment),
                 iconSize: 25,
                 color: Colors.teal,
-                onPressed: null, //ability to comment later on
+
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return new DiscussionCommentPage();
+                    }),
+                  );
+                }, //ability to comment later on
               ),
               new IconButton(
                 icon: new Icon(Icons.mobile_screen_share),
@@ -327,7 +346,14 @@ class _HomePageState extends State<HomePage> {
                 icon: new Icon(Icons.insert_comment),
                 iconSize: 25,
                 color: Colors.teal,
-                onPressed: null, //ability to comment later on
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return new CommentPage();
+                    }),
+                  );
+                }, //ability to comment later on
               ),
               new IconButton(
                 icon: new Icon(Icons.mobile_screen_share),
