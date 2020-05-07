@@ -59,9 +59,7 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
   void saveToDatabase(url) {
     var dbTimeKey = new DateTime.now();
     var formatTime = new DateFormat.yMMMMd("en_US").add_jm();
-
     String time = formatTime.format(dbTimeKey);
-
     DatabaseReference ref = FirebaseDatabase.instance.reference();
     var data = {
       "userId": AuthImplementation.currentUser,
@@ -70,6 +68,8 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
       "description": _myValue,
       "location": _myLocation,
       "time": time,
+      "comments": null, 
+      "likes": null,
     };
     ref.child("Posts").push().set(data);
   }

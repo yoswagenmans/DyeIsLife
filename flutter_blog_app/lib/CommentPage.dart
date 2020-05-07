@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 //import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
+// import 'Authentication.dart';
+// import 'ProfilePage.dart';
 import 'Authentication.dart';
-import 'ProfilePage.dart';
-//import 'Authentication.dart';
+import 'Comment.dart';
+import 'package:intl/intl.dart';
 
 class CommentPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -12,6 +14,10 @@ class CommentPage extends StatefulWidget {
 }
 
 class _CommentPageState extends State<CommentPage> {
+  String postID = "-M5u8zi8IikFVUkmtDNk";
+  String _myComment = "";
+  var pic, posterUserID, description, location, time, comments, likes;
+
   final formKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -26,43 +32,95 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   Widget combined() {
-    return new Column(children: <Widget>[
-      postsUI(
-          "example1",
-          "https://firebasestorage.googleapis.com/v0/b/blogapp-ece3e.appspot.com/o/Profile%20Images%2FScreen%20Shot%202020-04-26%20at%205.07.11%20PM.png?alt=media&token=39ad6760-abae-4142-8f75-619213fce9e9",
-          "caption will go here",
-          "Seattle, WA",
-          "April 25th, 2020 9:30 PM"),
-      commentsUI("@HenryE", "Carol Baker is hot", "April 26, 2020 10:41 PM"),
-      commentsUI("@JoeJoeR", "80085", "April 26, 2020 10:41 PM"),
-      commentsUI("@Yos", "yos", "April 26, 2020 10:41 PM"),
-      new Form(
-      key: formKey,
-      child: Column(
-        children: <Widget>[
-          TextFormField(
-              decoration: new InputDecoration(labelText: 'Comment'),
-              validator: (value) {
-                return value.isEmpty ? 'Please enter a comment' : null;
-              },
-              onSaved: (value) {
-                return null; //_myValue = value;
-              }),
-          RaisedButton(
-            elevation: 10.0,
-            child: Text('Add Comment'),
-            textColor: Colors.white,
-            color: Colors.pink,
-            onPressed: null,
-          ),
-        ],
-      ),
-    )
-      //commentsUI("@AlexJKB", "Happy early fathers day, Henry. You are the best daddy I could ever ask for", "April 26, 2020 10:41 PM"),
-    ]);
+    return new FutureBuilder(
+        future: FirebaseDatabase.instance
+            .reference()
+            .child("Posts")
+            .child(postID)
+            .once(),
+        builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+          if (snapshot.hasData) {
+            //lists.clear();
+            Map<dynamic, dynamic> values = snapshot.data.value;
+            pic = values["image"];
+            posterUserID = values["userId"];
+            description = values["description"];
+            time = values["time"];
+            location = values["location"];
+            comments = values["comments"];
+            List<Comment> commentsList = [];
+            if (comments != null) {
+              comments
+                  .forEach((id, commentVals) => commentsList.add(new Comment(
+                        commentVals['userId'],
+                        commentVals['commentBody'],
+                        commentVals['time'],
+                      )));
+            }
+            return new Column(children: <Widget>[
+              postsViewUI(posterUserID, pic, description, location, time),
+              new Container(
+                  height: 250.0,
+                  child: commentsList.length == 0
+                      ? new Text("No Comments yet")
+                      : new ListView.builder(
+                          itemCount: commentsList.length,
+                          itemBuilder: (_, index) {
+                            return commentsUI(
+                                commentsList[index].userId,
+                                commentsList[index].commentBody,
+                                commentsList[index].time);
+                          },
+                        )),
+              new Form(
+                key: formKey,
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                        decoration: new InputDecoration(labelText: 'Comment'),
+                        validator: (value) {
+                          return value.isEmpty
+                              ? 'Please enter a comment'
+                              : null;
+                        },
+                        onChanged: (value) {
+                          return _myComment = value;
+                        }),
+                    RaisedButton(
+                      elevation: 10.0,
+                      child: Text('Add Comment'),
+                      textColor: Colors.white,
+                      color: Colors.pink,
+                      onPressed: saveToDatabase,
+                    ),
+                  ],
+                ),
+              )
+            ]);
+          }
+          return CircularProgressIndicator();
+        });
   }
 
-  Widget postsUI(String username, String image, String description,
+  void saveToDatabase() {
+    var dbTimeKey = new DateTime.now();
+    var formatTime = new DateFormat.yMMMMd("en_US").add_jm();
+
+    String time = formatTime.format(dbTimeKey);
+
+    DatabaseReference ref = FirebaseDatabase.instance.reference();
+    var data = {
+      "userId": AuthImplementation.currentUser,
+      "commentBody": _myComment,
+      "time": time,
+    };
+    ref.child("Posts").child(postID).child("comments").push().set(data);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return new CommentPage();
+    }));
+  }
+
+  Widget postsViewUI(String username, String image, String description,
       String location, String time) {
     return new Card(
       elevation: 10.0,
@@ -75,12 +133,12 @@ class _CommentPageState extends State<CommentPage> {
             children: <Widget>[
               new Text(
                 username,
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
                 textAlign: TextAlign.center,
               ),
               new Text(
                 location,
-                style: Theme.of(context).textTheme.subtitle,
+                style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -94,7 +152,7 @@ class _CommentPageState extends State<CommentPage> {
           ),
           new Text(
             description,
-            style: Theme.of(context).textTheme.subhead,
+            style: Theme.of(context).textTheme.subtitle1,
             textAlign: TextAlign.center,
           ),
           SizedBox(
@@ -105,7 +163,7 @@ class _CommentPageState extends State<CommentPage> {
             children: <Widget>[
               new Text(
                 time,
-                style: Theme.of(context).textTheme.subtitle,
+                style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.right,
               ),
               //Note: al the buttons below do not have functionality yet. when pressed they will simply sign
@@ -154,13 +212,13 @@ class _CommentPageState extends State<CommentPage> {
             children: <Widget>[
               new Text(
                 username,
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
                 textAlign: TextAlign.center,
               ),
               new SizedBox(width: 6.0),
               new Text(
                 commentBody,
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -173,7 +231,7 @@ class _CommentPageState extends State<CommentPage> {
             children: <Widget>[
               new Text(
                 time,
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.right,
               ),
             ],

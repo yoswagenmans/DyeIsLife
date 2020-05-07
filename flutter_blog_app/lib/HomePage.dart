@@ -220,7 +220,7 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 new Text(
                   "username",
-                  style: Theme.of(context).textTheme.subhead,
+                  style: Theme.of(context).textTheme.subtitle1,
                   textAlign: TextAlign.center,
                 ),
               ]),
@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               new Text(
                 title,
-                style: Theme.of(context).textTheme.headline,
+                style: Theme.of(context).textTheme.headline5,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> {
           ),
           new Text(
             bodyText,
-            style: Theme.of(context).textTheme.body1,
+            style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.center,
           ),
           SizedBox(
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               new Text(
                 time,
-                style: Theme.of(context).textTheme.subtitle,
+                style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.right,
               ),
               //Note: all the buttons below do not have functionality yet. when pressed they do nothing
@@ -301,12 +301,12 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               new Text(
                 "username",
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
                 textAlign: TextAlign.center,
               ),
               new Text(
                 location,
-                style: Theme.of(context).textTheme.subtitle,
+                style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -320,7 +320,7 @@ class _HomePageState extends State<HomePage> {
           ),
           new Text(
             description,
-            style: Theme.of(context).textTheme.subhead,
+            style: Theme.of(context).textTheme.subtitle1,
             textAlign: TextAlign.center,
           ),
           SizedBox(
@@ -331,7 +331,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               new Text(
                 time,
-                style: Theme.of(context).textTheme.subtitle,
+                style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.right,
               ),
               //Note: al the buttons below do not have functionality yet. when pressed they will simply sign
