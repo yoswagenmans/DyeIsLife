@@ -45,7 +45,7 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
               children: <Widget>[
                 new Text(
                   "username",
-                  style: Theme.of(context).textTheme.subhead,
+                  style: Theme.of(context).textTheme.subtitle1,
                   textAlign: TextAlign.center,
                 ),
               ]),
@@ -54,7 +54,7 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
             children: <Widget>[
               new Text(
                 title,
-                style: Theme.of(context).textTheme.headline,
+                style: Theme.of(context).textTheme.headline5,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -64,7 +64,7 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
           ),
           new Text(
             bodyText,
-            style: Theme.of(context).textTheme.body1,
+            style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.center,
           ),
           SizedBox(
@@ -75,7 +75,7 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
             children: <Widget>[
               new Text(
                 time,
-                style: Theme.of(context).textTheme.subtitle,
+                style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.right,
               ),
               //Note: all the buttons below do not have functionality yet. when pressed they do nothing
@@ -125,13 +125,13 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
             children: <Widget>[
               new Text(
                 username,
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
                 textAlign: TextAlign.center,
               ),
               new SizedBox(width: 6.0),
               new Text(
                 commentBody,
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -144,7 +144,7 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
             children: <Widget>[
               new Text(
                 time,
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.right,
               ),
             ],

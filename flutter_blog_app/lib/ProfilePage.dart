@@ -22,8 +22,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   var userId, pic, username, bio, location;
-
-  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -116,7 +114,6 @@ class _ProfilePageState extends State<ProfilePage> {
           if (snapshot.hasData) {
             //lists.clear();
             Map<dynamic, dynamic> values = snapshot.data.value;
-
             pic = values["pic"];
             username = values["username"];
             bio = values["bio"];
@@ -176,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: <Widget>[
                               new Text(
                                 "@" + username,
-                                style: Theme.of(context).textTheme.headline,
+                                style: Theme.of(context).textTheme.headline5,
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -186,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: <Widget>[
                               new Text(
                                 location,
-                                style: Theme.of(context).textTheme.subhead,
+                                style: Theme.of(context).textTheme.subtitle1,
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -204,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: <Widget>[
                       new Text(
                         bio,
-                        style: Theme.of(context).textTheme.subhead,
+                        style: Theme.of(context).textTheme.subtitle1,
                         textAlign: TextAlign.center,
                       ),
                       new SizedBox(
