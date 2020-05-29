@@ -36,12 +36,14 @@ class BlogApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final MaterialColor colorCustom = MaterialColor(0xFF48AABD, munsellblue);
     final MaterialColor colorCustom2 = MaterialColor(0xFF46494C, darkgray);
-    return new MaterialApp(
-      title: "Blog App",
-      theme: new ThemeData(
+    var themeData = new ThemeData(
         primarySwatch: colorCustom2,
         bottomAppBarColor: colorCustom,
-      ),
+        fontFamily: 'OpenSans',
+      );
+    return new MaterialApp(
+      title: "Blog App",
+      theme: themeData,
       home: MappingPage(),
     );
   }

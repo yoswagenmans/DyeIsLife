@@ -94,17 +94,19 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Container(
-        margin: EdgeInsets.all(15.8),
-        child: new Form(
-          key: formKey,
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: createInputs() + createButtons(),
+      body: new SingleChildScrollView(
+        child: new Container(
+            margin: EdgeInsets.all(15.8),
+            child: new Form(
+              key: formKey,
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: createInputs() + createButtons(),
+              ),
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   List<Widget> createInputs() {
@@ -159,12 +161,13 @@ class _LoginRegisterState extends State<LoginRegisterPage> {
 
   Widget logo() {
     return new Hero(
-        tag: 'hero',
-        child: new CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 100.0,
-          child: Image.asset('images/app_logo.jpeg'),
-        ));
+      tag: 'hero',
+      child: new CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: 150.0,
+        child: Image.asset('images/app_logo.jpeg'),
+      )
+    );
   }
 
   List<Widget> createButtons() {

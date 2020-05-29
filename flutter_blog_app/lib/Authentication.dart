@@ -34,8 +34,6 @@ class AuthImplementation {
   static Future<void> signOut() async {
     print("it called the sign out method");
     currentUser = "";
-    _firebaseAuth.signOut();
-    
-    
+    _firebaseAuth.signOut();    
   }
 }
