@@ -4,6 +4,7 @@ FLUTTER_APPLICATION_PATH=/Users/henryevans/Documents/Senior Year/CS 5 Project/fl
 FLUTTER_TARGET=/Users/henryevans/Documents/Senior Year/CS 5 Project/flutter_blog_app/lib/main.dart
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build/ios
+OTHER_LDFLAGS=$(inherited) -framework Flutter
 FLUTTER_FRAMEWORK_DIR=/Users/henryevans/desktop/flutter/bin/cache/artifacts/engine/ios
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1

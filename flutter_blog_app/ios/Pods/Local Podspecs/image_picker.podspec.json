@@ -2,17 +2,19 @@
   "name": "image_picker",
   "version": "0.0.1",
   "summary": "Flutter plugin that shows an image picker.",
-  "description": "Flutter plugin that shows an image picker.",
-  "homepage": "https://github.com/flutter/plugins/tree/master/packages/image_picker",
+  "description": "A Flutter plugin for picking images from the image library, and taking new pictures with the camera.\nDownloaded by pub (not CocoaPods).",
+  "homepage": "https://github.com/flutter/plugins",
   "license": {
+    "type": "BSD",
     "file": "../LICENSE"
   },
   "authors": {
-    "Flutter Team": "flutter-dev@googlegroups.com"
+    "Flutter Dev Team": "flutter-dev@googlegroups.com"
   },
   "source": {
-    "path": "."
+    "http": "https://github.com/flutter/plugins/tree/master/packages/image_picker"
   },
+  "documentation_url": "https://pub.dev/packages/image_picker",
   "source_files": "Classes/**/*",
   "public_header_files": "Classes/**/*.h",
   "dependencies": {
@@ -21,9 +23,17 @@
     ]
   },
   "platforms": {
-    "osx": null,
-    "ios": null,
-    "tvos": null,
-    "watchos": null
-  }
+    "ios": "8.0"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "VALID_ARCHS": "armv7 arm64 x86_64"
+  },
+  "testspecs": [
+    {
+      "name": "Tests",
+      "test_type": "unit",
+      "source_files": "Tests/**/*"
+    }
+  ]
 }
