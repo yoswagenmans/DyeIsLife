@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'Authentication.dart';
+import 'Comment.dart';
+import 'package:intl/intl.dart';
+import 'HomePage.dart';
 
 class DiscussionCommentPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -7,11 +12,28 @@ class DiscussionCommentPage extends StatefulWidget {
 }
 
 class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
+  String discussionID = "-M4SAApkAF5mnBING1IH";
+  String _myComment = "";
+  var posterUserID, bodyText, title, time, comments, likes;
+
+  final formKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    //print(getCurrentUser());
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Discussion"),
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return new HomePage();
+              }),
+            );
+          },
+        ),
+        title: new Text("Comments"),
         centerTitle: true,
       ),
       body: combined(),
@@ -19,17 +41,91 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
   }
 
   Widget combined() {
-    return new Column(children: <Widget>[
-      discussionUI(
-          "example1",
-          "Type of Plywood",
-          "I was wondering if anyone had recommendations on the best kind of plywood to use while building a table. I want a wood that is durable, easy to paint on, and has good bounce. I would love product recs that I could find at either a Lowes or Home Depot",
-          "April 25th, 2020 9:30 PM"),
-      commentsUI("@HenryE", "Carol Baker is hot", "April 26, 2020 10:41 PM"),
-      commentsUI("@JoeJoeR", "80085", "April 26, 2020 10:41 PM"),
-      commentsUI("@Yos", "yos", "April 26, 2020 10:43 PM"),
-      
-    ]);
+    return new FutureBuilder(
+        future: FirebaseDatabase.instance
+            .reference()
+            .child("Discussions")
+            .child(discussionID)
+            .once(),
+        builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+          if (snapshot.hasData) {
+            //lists.clear();
+            Map<dynamic, dynamic> values = snapshot.data.value;
+            posterUserID = values["userId"];
+            bodyText = values["bodyText"];
+            title = values["title"];
+            time = values["time"];
+            comments = values["comments"];
+            List<Comment> commentsList = [];
+            if (comments != null) {
+              comments
+                  .forEach((id, commentVals) => commentsList.add(new Comment(
+                        commentVals['userId'],
+                        commentVals['commentBody'],
+                        commentVals['time'],
+                      )));
+            }
+            return new Column(children: <Widget>[
+              discussionUI(posterUserID, title, bodyText, time),
+              new Container(
+                  height: 250.0,
+                  child: commentsList.length == 0
+                      ? new Text("No Comments yet")
+                      : new ListView.builder(
+                          itemCount: commentsList.length,
+                          itemBuilder: (_, index) {
+                            return commentsUI(
+                                commentsList[index].userId,
+                                commentsList[index].commentBody,
+                                commentsList[index].time);
+                          },
+                        )),
+              new Form(
+                key: formKey,
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                        decoration: new InputDecoration(labelText: 'Comment'),
+                        validator: (value) {
+                          return value.isEmpty
+                              ? 'Please enter a comment'
+                              : null;
+                        },
+                        onChanged: (value) {
+                          return _myComment = value;
+                        }),
+                    RaisedButton(
+                      elevation: 10.0,
+                      child: Text('Add Comment'),
+                      textColor: Colors.white,
+                      color: Colors.grey,
+                      onPressed: saveToDatabase,
+                    ),
+                  ],
+                ),
+              )
+            ]);
+          }
+          return CircularProgressIndicator();
+        });
+  }
+
+  void saveToDatabase() {
+    var dbTimeKey = new DateTime.now();
+    var formatTime = new DateFormat.yMMMMd("en_US").add_jm();
+
+    String time = formatTime.format(dbTimeKey);
+
+    DatabaseReference ref = FirebaseDatabase.instance.reference();
+    var data = {
+      "userId": AuthImplementation.currentUser,
+      "commentBody": _myComment,
+      "time": time,
+    };
+    ref.child("Discussions").child(discussionID).child("comments").push().set(data);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return new DiscussionCommentPage();
+    }));
   }
 
   Widget discussionUI(
@@ -121,14 +217,18 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                new Text(
+                  username,
+                  style: Theme.of(context).textTheme.subtitle1,
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(width: 6.0),
+              ]),
+          new Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              new Text(
-                username,
-                style: Theme.of(context).textTheme.subtitle1,
-                textAlign: TextAlign.center,
-              ),
-              new SizedBox(width: 6.0),
               new Text(
                 commentBody,
                 style: Theme.of(context).textTheme.bodyText1,
@@ -154,3 +254,4 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
     );
   }
 }
+

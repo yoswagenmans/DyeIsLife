@@ -8,17 +8,13 @@
 		<data>
 		tyWOBVQmBI28WShjj69FKV76OTA=
 		</data>
-		<key>Headers/UserAgent.h</key>
-		<data>
-		2IKUu+PESvkMW4V9lbmiGLU4JDs=
-		</data>
 		<key>Headers/firebase_database-umbrella.h</key>
 		<data>
-		+Y/OaaUTXGlGKH6gJ/pMnY2yz9M=
+		1JjCnZ8W9YM4Z77+rR5gH+J7OqM=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		HcA8l5sfrJMdxnfPXZwl4cxxsPU=
+		DoJSPgWCqKJ37sgjI7aOyJ7+WfI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -38,26 +34,15 @@
 			/jzOrGBaLaAXgHQPGG+YHOgkGF3uTm4wN1vj3/EI910=
 			</data>
 		</dict>
-		<key>Headers/UserAgent.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2IKUu+PESvkMW4V9lbmiGLU4JDs=
-			</data>
-			<key>hash2</key>
-			<data>
-			7h3JxVNps6UTF3jisABJH0ryfkELayGZI52AwYs8Hc4=
-			</data>
-		</dict>
 		<key>Headers/firebase_database-umbrella.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+Y/OaaUTXGlGKH6gJ/pMnY2yz9M=
+			1JjCnZ8W9YM4Z77+rR5gH+J7OqM=
 			</data>
 			<key>hash2</key>
 			<data>
-			DDlk35XQrHTJDQZ4c+SxZppgf2DoPQmSWCQZPG0nx/M=
+			3cvuYQEVzluShaDFRkIspi8XcIjnTyEluTMhBYwFtCE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -386,7 +386,8 @@ class _HomePageState extends State<HomePage> {
                             postsList[index].time);
                       },
                     ))),
-      1: Center(
+      1: 
+        Center(
           child: new Container(
               child: discussionsList.length == 0
                   ? new Text("No Posts available")

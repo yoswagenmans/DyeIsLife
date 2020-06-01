@@ -11,7 +11,6 @@
 #endif
 
 #import "FLTFirebaseStoragePlugin.h"
-#import "UserAgent.h"
 
 FOUNDATION_EXPORT double firebase_storageVersionNumber;
 FOUNDATION_EXPORT const unsigned char firebase_storageVersionString[];

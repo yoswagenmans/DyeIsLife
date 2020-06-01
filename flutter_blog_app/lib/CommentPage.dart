@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
-// import 'Authentication.dart';
-// import 'ProfilePage.dart';
 import 'Authentication.dart';
 import 'Comment.dart';
 import 'package:intl/intl.dart';
+import 'HomePage.dart';
 
 class CommentPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -24,6 +22,17 @@ class _CommentPageState extends State<CommentPage> {
     //print(getCurrentUser());
     return new Scaffold(
       appBar: new AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return new HomePage();
+              }),
+            );
+          },
+        ),
         title: new Text("Comments"),
         centerTitle: true,
       ),
@@ -208,14 +217,18 @@ class _CommentPageState extends State<CommentPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                new Text(
+                  username,
+                  style: Theme.of(context).textTheme.subtitle1,
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(width: 6.0),
+              ]),
+          new Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              new Text(
-                username,
-                style: Theme.of(context).textTheme.subtitle1,
-                textAlign: TextAlign.center,
-              ),
-              new SizedBox(width: 6.0),
               new Text(
                 commentBody,
                 style: Theme.of(context).textTheme.bodyText1,
