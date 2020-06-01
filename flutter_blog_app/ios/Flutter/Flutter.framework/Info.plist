@@ -23,7 +23,15 @@
   <key>MinimumOSVersion</key>
   <string>8.0</string>
   <key>FlutterEngine</key>
+<<<<<<< Updated upstream
   <string>b851c718295a896918dc93cb1ff14f2f895a1b90</string>
+=======
+<<<<<<< HEAD
+  <string>b851c718295a896918dc93cb1ff14f2f895a1b90</string>
+=======
+  <string>a67792536ca236a971d0efbcfd7af4efb8f6c119</string>
+>>>>>>> 971ffc80d56a05a5e27b7a7bd53ae346b2da32ea
+>>>>>>> Stashed changes
   <key>ClangVersion</key>
   <string>Fuchsia clang version 8.0.0  (based on LLVM 8.0.0svn)</string>
 </dict>
