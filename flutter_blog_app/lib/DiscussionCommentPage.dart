@@ -25,7 +25,7 @@ class _DiscussionCommentPageState extends State<DiscussionCommentPage> {
           "Type of Plywood",
           "I was wondering if anyone had recommendations on the best kind of plywood to use while building a table. I want a wood that is durable, easy to paint on, and has good bounce. I would love product recs that I could find at either a Lowes or Home Depot",
           "April 25th, 2020 9:30 PM"),
-      commentsUI("@HenryE", "Carol Baker is hot", "April 26, 2020 10:41 PM"),
+      commentsUI("@HenryE", "the weather is hot", "April 26, 2020 10:41 PM"),
       commentsUI("@JoeJoeR", "80085", "April 26, 2020 10:41 PM"),
       commentsUI("@Yos", "yos", "April 26, 2020 10:43 PM"),
       
