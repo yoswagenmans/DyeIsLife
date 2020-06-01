@@ -8,7 +8,7 @@
     "file": "../LICENSE"
   },
   "authors": {
-    "Your Company": "email@example.com"
+    "Your Company": "@example.com"
   },
   "source": {
     "path": "."
